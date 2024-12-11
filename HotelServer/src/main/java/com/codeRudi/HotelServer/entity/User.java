@@ -21,28 +21,22 @@ public class User implements UserDetails {
     private Long id;
 
     private String email;
-
     private String password;
-
     private String name;
-
     private UserRole userRole;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(userRole.name()));
     }
-
     @Override
     public String getUsername() {
         return email;
     }
-
     @Override
     public String getPassword() {
         return password;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
