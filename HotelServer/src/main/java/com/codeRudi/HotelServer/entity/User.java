@@ -1,5 +1,6 @@
 package com.codeRudi.HotelServer.entity;
 
+import com.codeRudi.HotelServer.dto.UserDTO;
 import com.codeRudi.HotelServer.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,8 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,5 +57,15 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public UserDTO getUserDTO() {
+        UserDTO dto = new UserDTO();
+        dto.setId(id);
+        dto.setName(name);
+        dto.setEmail(email);
+        dto.setUserRole(userRole);
+
+        return dto;
     }
 }
