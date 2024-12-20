@@ -3,6 +3,9 @@
   import { DemoNgZorroAntdModule } from '../../../DemoNgZorroModules';
   import { NzIconModule,NzIconService } from 'ng-zorro-antd/icon';
   import { UserOutline, LoginOutline } from '@ant-design/icons-angular/icons';
+  import { AuthService } from '../../services/auth/auth.service';
+  import { NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
 
 
   @Component({
@@ -16,7 +19,11 @@
 
     registerForm!: FormGroup;
 
-    constructor(private fb:FormBuilder,private iconService: NzIconService){}
+    constructor(private fb:FormBuilder,
+              private iconService: NzIconService,
+              private authService: AuthService,
+              private message: NzMessageService,
+              private router: Router){}
 
     
     ngOnInit() {
@@ -26,5 +33,16 @@
         name: [null, Validators.required]
       });
       this.iconService.addIcon(UserOutline, LoginOutline);
+    }
+
+    submitForm() {
+      this.authService.register(this.registerForm.value).subscribe(res=>{
+        if(res.id != null){
+          this.message.success("Signup successful",{nzDuration: 5000});
+          this.router.navigateByUrl("/");
+        } else {
+          this.message.error(`${res.message}`, {nzDuration: 5000}) 
+        }
+      })
     }
   }
